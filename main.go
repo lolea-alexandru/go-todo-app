@@ -22,6 +22,7 @@ func createTask(reader *bufio.Reader) {
 	description, _ := reader.ReadString('\n')
 	description = strings.TrimSpace(description)
 
+	// Create task
 	models.CreateTask(name, description)
 }
 
@@ -44,9 +45,7 @@ func main() {
 		case "1":
 			createTask(reader)
 		case "2":
-			tasks := models.Tasks{Tasks: []models.Task{}}
-			models.GetTasks(&tasks)
-			fmt.Println("The tasks list is: ", tasks)
+			models.ShowTasks()
 		case "3":
 			fmt.Println("You chose to update a task")
 

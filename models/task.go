@@ -17,6 +17,7 @@ type Task struct {
 	ID          string `json:"id,omitempty"`
 	Name        string `json:"name,omitempty"`
 	Description string `json:"description"`
+	Status      string `json:"status,omitempty"`
 }
 
 func ensureFileExists(path string) {
@@ -36,7 +37,7 @@ func ensureFileExists(path string) {
 	}
 }
 
-func GetTasks(tasks *Tasks) {
+func getTasks(tasks *Tasks) {
 	// Make sure the file exists before trying to read from it
 	ensureFileExists("tasks.json")
 
@@ -51,20 +52,16 @@ func GetTasks(tasks *Tasks) {
 		return
 	}
 
-	// fmt.Println("The tasks list is: ", tasks)
-	for i := 0; i < len(tasks.Tasks); i++ {
-		fmt.Println("Task: ", tasks.Tasks[i])
-	}
 }
 
 func CreateTask(Name string, Description string) {
 	// Get all the tasks from the file
 	tasks := Tasks{Tasks: []Task{}}
-	GetTasks(&tasks)
+	getTasks(&tasks)
 
 	// Create the task
 	ID := uuid.New().String()
-	task := Task{ID, Name, Description}
+	task := Task{ID, Name, Description, "TODO"}
 
 	tasks.Tasks = append(tasks.Tasks, task)
 
@@ -76,5 +73,15 @@ func CreateTask(Name string, Description string) {
 	if err != nil {
 		fmt.Println("An error has occured: ", err)
 	}
+}
 
+func ShowTasks() {
+	// Get all the tasks from the file
+	tasks := Tasks{Tasks: []Task{}}
+	getTasks(&tasks)
+
+	for i := 0; i < len(tasks.Tasks); i++ {
+		fmt.Printf("Task #%d: %s %s\n", i+1, tasks.Tasks[i].Name, tasks.Tasks[i].Status)
+		fmt.Printf("Description: %s\n\n", tasks.Tasks[i].Description)
+	}
 }
