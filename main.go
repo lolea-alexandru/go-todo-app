@@ -50,7 +50,7 @@ func main() {
 		case "3":
 			models.UpdateTask(reader)
 		case "4":
-			fmt.Println("You chose delete a task")
+			models.DeleteTask(reader)
 		case "5":
 			fmt.Println("Goodbye!")
 			return

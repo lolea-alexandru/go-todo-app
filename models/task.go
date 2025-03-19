@@ -122,3 +122,31 @@ func UpdateTask(reader *bufio.Reader) {
 		fmt.Println("An error has occured: ", err)
 	}
 }
+
+func DeleteTask(reader *bufio.Reader) {
+	fmt.Println("Welcome to the task deletion menu!")
+
+	/* ------------------- CHOOSE TASK -------------------*/
+	fmt.Print("Please type in the number of the task you would like to delete:")
+	input_task_number, _ := reader.ReadString('\n')
+	input_task_number = strings.TrimSpace(input_task_number)
+
+	task_number, _ := strconv.Atoi(input_task_number)
+	fmt.Println("You have chosen to delete task:", task_number)
+
+	/* ------------------- RETRIEVE TASK -------------------*/
+	// Get all the tasks from the file
+	tasks := Tasks{Tasks: []Task{}}
+	getTasks(&tasks)
+
+	tasks.Tasks = append(tasks.Tasks[:task_number-1], tasks.Tasks[task_number:]...)
+
+	tasks_bytes, _ := json.MarshalIndent(tasks, "", "  ")
+
+	// Write to file
+	err := os.WriteFile("tasks.json", tasks_bytes, 0664)
+
+	if err != nil {
+		fmt.Println("An error has occured: ", err)
+	}
+}
