@@ -34,8 +34,9 @@ func main() {
 		// Print the menu
 		fmt.Print("1. Create a task\n")
 		fmt.Print("2. Get all tasks\n")
-		fmt.Print("3. Update a task\n")
+		fmt.Print("3. Update the status of a task\n")
 		fmt.Print("4. Delete a task\n")
+		fmt.Print("5. Quit\n")
 
 		fmt.Print("Please input the number corresponding to your option: ")
 		option, _ := reader.ReadString('\n')
@@ -47,15 +48,12 @@ func main() {
 		case "2":
 			models.ShowTasks()
 		case "3":
-			fmt.Println("You chose to update a task")
-
+			models.UpdateTask(reader)
 		case "4":
 			fmt.Println("You chose delete a task")
-
-		default:
-			fmt.Println("Invalid option, please try again")
+		case "5":
+			fmt.Println("Goodbye!")
+			return
 		}
 	}
-
-	// models.CreateTask(1, "Do Dishes", "Wash the dishes");
 }
